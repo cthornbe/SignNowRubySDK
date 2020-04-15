@@ -4,7 +4,7 @@ require 'signnow'
 
 module SN
   class Document
-    attr_accessor :id, :texts, :signatures, :checks, :fields, :updated, :requests, :roles, :field_invites
+    attr_accessor :id, :texts, :signatures, :checks, :fields, :updated, :requests, :roles, :field_invites, :tags
 
     attr_accessor :filename, :user_token
 
@@ -207,7 +207,7 @@ module SN
     private
       def create
         validate_new_doc_params!
-        payload = { multipart: true, file: File.new(@filename, 'rb') }
+        payload = { multipart: true, file: File.new(@filename, 'rb'), Tags: @tags }
         headers = { authorization: "Bearer #{@user_token}" }
 
         begin
