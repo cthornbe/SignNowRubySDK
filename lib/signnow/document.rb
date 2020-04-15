@@ -20,6 +20,7 @@ module SN
       @fields ||= []
       @roles ||= []
       @field_invites ||= []
+      @tags ||= []
     end
 
 
@@ -41,7 +42,8 @@ module SN
         updated: @updated,
         requests: @requests,
         field_invites: @field_invites,
-        roles: @roles
+        roles: @roles,
+        tags: @tags
       }.reject! { |k, v| v.nil? }.to_json
     end
 
