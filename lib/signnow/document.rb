@@ -207,11 +207,18 @@ module SN
     private
       def create
         validate_new_doc_params!
-        payload = { multipart: true, file: File.new(@filename, 'rb'), data: { Tags: @tags } }
+        payload = { multipart: true, file: File.new(@filename, 'rb'), Tags: @tags.to_json }
         headers = { authorization: "Bearer #{@user_token}" }
 
         begin
-          response = RestClient::Request.execute(method: :post, url: "#{SN.Settings.base_url}/document/fieldextract", payload: payload, headers: headers, open_timeout: 360, timeout: 360)
+          response = RestClient::Request.execute(
+            method: :post,
+            url: "#{SN.Settings.base_url}/document/fieldextract",
+            payload: payload,
+            headers: headers,
+            open_timeout: 360,
+            timeout: 360
+          )
           @id = JSON.parse(response.body)['id']
           true
         rescue Exception => e
